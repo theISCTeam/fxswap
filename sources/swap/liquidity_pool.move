@@ -332,12 +332,15 @@ module liquidswap::liquidity_pool {
                 y_in_val,
                 pool.fee
             );
+        let price = coin_helper::oracle_price<X, Y>();
         assert_lp_value_is_increased<Curve>(
             pool.x_scale,
             pool.y_scale,
-            (x_reserve_size as u128),
+            (math::mul_div(x_reserve_size, price, 1000000) as u128),
+            //(x_reserve_size as u128),
             (y_reserve_size as u128),
-            (x_res_new_after_fee as u128),
+            (math::mul_div_u128(x_res_new_after_fee, (price as u128), 1000000) as u128),
+            //(x_res_new_after_fee as u128),
             (y_res_new_after_fee as u128),
         );
 

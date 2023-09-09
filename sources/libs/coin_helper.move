@@ -61,6 +61,11 @@ module liquidswap::coin_helper {
         comparator::is_smaller_than(&order)
     }
 
+    /// Price for pair X/Y scaled up by 1000000
+    public fun oracle_price<X, Y>(): u64 {
+        2000000
+    }
+
     /// Get supply for `CoinType`.
     /// Would throw error if supply for `CoinType` doesn't exist.
     public fun supply<CoinType>(): u128 {
