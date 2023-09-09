@@ -1,10 +1,9 @@
 [package]
 name = 'LiquidswapLP'
 version = '1.0.0'
-upgrade_policy = "immutable"
 
 [addresses]
-liquidswap_lp = "0x05a97986a9d031c4567e15b797be516910cfcb4156312482efc6a19c0a30c948"
+liquidswap_lp = "0x391386dde449bfed0d34259a812e005e38a19d94cb057737e0b0af2c44a2a380"
 
 [dev-dependencies.MoveStdlib]
 git = "https://github.com/aptos-labs/aptos-core.git"

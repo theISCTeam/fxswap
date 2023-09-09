@@ -1,19 +1,18 @@
 [package]
 name = "Liquidswap"
 version = "0.4.4"
-upgrade_policy = "immutable"
 
 [addresses]
-liquidswap = "0x190d44266241744264b964a37b8f09863167a12d3e70cda39376cfb4e3561e12"
+liquidswap = "ee2610bcc5e690d166ce6c4b7a78c93afca1ebbe5ace4f89baf379fe79e513bb"
 
 # Admins
-dao_admin = "0x63e39817ec41fad2e8d0713cc906a5f792e4cd2cf704f8b5fab6b2961281fa11"
-emergency_admin = "0x63e39817ec41fad2e8d0713cc906a5f792e4cd2cf704f8b5fab6b2961281fa11"
-fee_admin = "0x63e39817ec41fad2e8d0713cc906a5f792e4cd2cf704f8b5fab6b2961281fa11"
+dao_admin = "0xe1fc55952c6f2dc4f370e0433401186a8c0810fb75c821ec52a6cfdf946d5a17"
+emergency_admin = "0xe1fc55952c6f2dc4f370e0433401186a8c0810fb75c821ec52a6cfdf946d5a17"
+fee_admin = "0xe1fc55952c6f2dc4f370e0433401186a8c0810fb75c821ec52a6cfdf946d5a17"
 
 # Resource accounts: should be the same as @liquidswap_lp in lp_coin
-liquidswap_pool_account = "0x05a97986a9d031c4567e15b797be516910cfcb4156312482efc6a19c0a30c948"
-liquidswap_emergency_account = "0xa6d6e549b917e454464ff6c63f91386d98769ea512bc778bdaca00969f896764"
+liquidswap_pool_account = "0x391386dde449bfed0d34259a812e005e38a19d94cb057737e0b0af2c44a2a380"
+liquidswap_emergency_account = "0x6d1d651024c6dffc208a6ea58fd33695caa1a09731bb29c94d8d18f3c5e11682"
 
 # Addresses for tests.
 test_coin_admin = "0x11"
@@ -34,9 +33,7 @@ rev = "mainnet"
 subdir = "aptos-move/framework/aptos-framework"
 
 [dependencies.UQ64x64]
-git = "https://github.com/pontem-network/UQ64x64.git"
-rev = "v0.3.8"
+local = "./uq64x64/"
 
 [dependencies.U256]
-git = "https://github.com/pontem-network/U256.git"
-rev = "v0.3.9"
+local = "./u256/"
