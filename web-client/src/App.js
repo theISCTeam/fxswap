@@ -195,12 +195,12 @@ function App() {
   return (
     <div style= {{backgroundColor: '#000000', height:'100vh'}}>
       <Layout>
-        <Row align="middle" style={{backgroundColor: '#222222'}}>
+        <Row align="middle" style={{backgroundColor: '#eeeeee'}}>
           <Col span={10} offset={2}>
-            <h1 style={{color: '#dddddd'}}>FxSwap</h1>
+            <h1 style={{color: '#444444'}}>FxSwap</h1>
           </Col>
           <Col span={12} style={{ textAlign: "right", paddingRight: "100px" }}>
-            <WalletSelector style={{color:'#333333'}}/>
+            <WalletSelector/>
           </Col>
         </Row>
       </Layout>
