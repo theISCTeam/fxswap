@@ -12,25 +12,33 @@ const provider2 = new Provider(Network.MAINNET);
 // change this to be your module account address
 const coin_owner="0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f";
 const liquidswap="0xee2610bcc5e690d166ce6c4b7a78c93afca1ebbe5ace4f89baf379fe79e513bb";
+const POOLS={
+  "ISC-USD": 0,
+  "SGD-USD": 1,
+}
 const COINS={
   "APT": "APT",
   "ISC": "ISC",
   "USD": "USD",
+  "SGD": "SGD",
 }
 const COIN_ADDR={
   "APT": `0x1::aptos_coin::AptosCoin`,
   "ISC": `${coin_owner}::isc_coin::IscCoin`,
   "USD": `${coin_owner}::usd_coin::UsdCoin`,
+  "SGD": `${coin_owner}::usd_coin::UsdCoin`,
 }
 const COIN_RESOURCE_ADDR={
   "APT": `0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`,
   "ISC": `0x1::coin::CoinStore<${coin_owner}::isc_coin::IscCoin>`,
   "USD": `0x1::coin::CoinStore<${coin_owner}::usd_coin::UsdCoin>`,
+  "SGD": `0x1::coin::CoinStore<${coin_owner}::usd_coin::UsdCoin>`,
 }
 const COIN_PRICE_ADDR={
   "APT": `0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`,
   "ISC": `0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`,
   "USD": `0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`,
+  "SGD": `0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`,
 }
 
 function App() {
@@ -38,10 +46,11 @@ function App() {
   const [balanceApt, setBalanceApt] = useState(0);
   const [balanceIsc, setBalanceIsc] = useState(0);
   const [balanceUsd, setBalanceUsd] = useState(0);
+  const [balanceSgd, setBalanceSgd] = useState(0);
   const [inputAmount, setInputAmount] = useState(0);
   const [outputAmount, setOutputAmount] = useState(0);
   const [swapOrder, setSwapOrder] = useState([COINS.USD, COINS.ISC]);
-  const [prices, setPrices] = useState({APT:1, ISC:1, USD:1});
+  const [prices, setPrices] = useState({APT:1, ISC:1, USD:1, SGD:1});
 
   const coinToString = (coin) => {
     return coin;
@@ -101,9 +110,11 @@ function App() {
   useEffect(() => { fetchBalance(COINS.APT); }, [account?.address]);
   useEffect(() => { fetchBalance(COINS.ISC); }, [account?.address]);
   useEffect(() => { fetchBalance(COINS.USD); }, [account?.address]);
+  useEffect(() => { fetchBalance(COINS.SGD); }, [account?.address]);
   useEffect(() => { fetchPrice(COINS.APT); }, [account?.address]);
   useEffect(() => { fetchPrice(COINS.ISC); }, [account?.address]);
   useEffect(() => { fetchPrice(COINS.USD); }, [account?.address]);
+  useEffect(() => { fetchPrice(COINS.SGD); }, [account?.address]);
 
   const setBalance = (coin, value) => {
     switch (coin) {
@@ -115,6 +126,9 @@ function App() {
         break;
       case COINS.USD:
         setBalanceUsd(value);
+        break;
+      case COINS.SGD:
+        setBalanceSgd(value);
         break;
     }
   }
@@ -164,14 +178,14 @@ function App() {
       <Row gutter={[0, 32]} style={{ marginTop: "2rem"}}>
         <Col span={6} offset={10}>
           <Card title="Stable Swap">
-            <Input suffix={coinToString(swapOrder[0])} onChange={updateAmount}/>
+            <Input addonAfter={<div style={{width:"30px", maxWidth:"30px"}}>{coinToString(swapOrder[0])}</div>} onChange={updateAmount}/>
             <div style={{'display': 'flex', 'flexDirection': 'column',
                           'alignItems': 'center',
                           'textAlign:': 'center'
             }}>
               <Button shape="circle" size="small" icon={<SwapOutlined rotate="90" onClick={changeSwapOrder}/>} flex="center"/>
             </div>
-            <Input disabled={true} value={computeOutputAmount()} suffix={coinToString(swapOrder[1])} />
+            <Input style={{}} disabled={true} value={computeOutputAmount()} addonAfter={<div style={{width:"30px", maxWidth:"30px"}}>{coinToString(swapOrder[1])}</div>} />
             <br />
             <br />
             <Button onClick={performSwap} block type="primary" /*style={{ height: "40px", backgroundColor: "#3f67ff" }}*/>
