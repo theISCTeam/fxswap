@@ -1,11 +1,13 @@
 import './App.css';
-import { Layout, Row, Col, FloatButton, Button, Card, Input } from "antd";
+import { Layout, Row, Col, FloatButton, Button, Card, Input, Dropdown, Space, message } from "antd";
 import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
 import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
 import { Provider, Network } from "aptos";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { useState, useEffect } from "react";
 import {  SwapOutlined  } from "@ant-design/icons";
+import DropdownButton from 'antd/es/dropdown/dropdown-button';
+import { DownOutlined, SmileOutlined } from '@ant-design/icons';
 
 const provider = new Provider(Network.LOCAL);
 const provider2 = new Provider(Network.MAINNET);
@@ -13,14 +15,18 @@ const provider2 = new Provider(Network.MAINNET);
 const coin_owner="0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f";
 const liquidswap="0xee2610bcc5e690d166ce6c4b7a78c93afca1ebbe5ace4f89baf379fe79e513bb";
 const POOLS={
-  "ISC-USD": 0,
-  "SGD-USD": 1,
+  "ISCUSD": "ISC-USD",
+  "SGDUSD": "SGD-USD",
 }
 const COINS={
   "APT": "APT",
   "ISC": "ISC",
   "USD": "USD",
   "SGD": "SGD",
+}
+const POOL_COINS={
+  "ISC-USD": [COINS.ISC, COINS.USD],
+  "SGD-USD": [COINS.SGD, COINS.USD],
 }
 const COIN_ADDR={
   "APT": `0x1::aptos_coin::AptosCoin`,
@@ -51,6 +57,7 @@ function App() {
   const [outputAmount, setOutputAmount] = useState(0);
   const [swapOrder, setSwapOrder] = useState([COINS.USD, COINS.ISC]);
   const [prices, setPrices] = useState({APT:1, ISC:1, USD:1, SGD:1});
+  const [currentPool, setCurrentPool] = useState(POOLS.ISCUSD);
 
   const coinToString = (coin) => {
     return coin;
@@ -163,21 +170,40 @@ function App() {
     }
   };
 
+  const items = [
+    {
+      key: POOLS.ISCUSD,
+      label: ( POOLS.ISCUSD),
+    },
+    {
+      key: POOLS.SGDUSD,
+      label: ( POOLS.SGDUSD),
+      disabled: false,
+    },
+  ];
+
+  const onClick = ({ key }) => {
+    setCurrentPool(key)
+    let a=POOL_COINS[key]
+    setSwapOrder(a)
+    console.log(a)
+  };
+
   return (
-    <div style= {{backgroundColor: '#000000', height: '1000000px'}}>
+    <div style= {{backgroundColor: '#000000', height:'100vh'}}>
       <Layout>
         <Row align="middle" style={{backgroundColor: '#222222'}}>
           <Col span={10} offset={2}>
             <h1 style={{color: '#dddddd'}}>FxSwap</h1>
           </Col>
           <Col span={12} style={{ textAlign: "right", paddingRight: "100px" }}>
-            <WalletSelector />
+            <WalletSelector style={{color:'#333333'}}/>
           </Col>
         </Row>
       </Layout>
       <Row gutter={[0, 32]} style={{ marginTop: "2rem"}}>
-        <Col span={6} offset={10}>
-          <Card title="Stable Swap">
+        <Col offset={10}>
+          <Card title="Stable Swap" style={{minWidth:'350px'}}>
             <Input addonAfter={<div style={{width:"30px", maxWidth:"30px"}}>{coinToString(swapOrder[0])}</div>} onChange={updateAmount}/>
             <div style={{'display': 'flex', 'flexDirection': 'column',
                           'alignItems': 'center',
@@ -186,7 +212,26 @@ function App() {
               <Button shape="circle" size="small" icon={<SwapOutlined rotate="90" onClick={changeSwapOrder}/>} flex="center"/>
             </div>
             <Input style={{}} disabled={true} value={computeOutputAmount()} addonAfter={<div style={{width:"30px", maxWidth:"30px"}}>{coinToString(swapOrder[1])}</div>} />
-            <br />
+            <br /> <br />
+            <div style={{display: 'flex', justifyContent:'space-between'}}>
+              <span>
+                <div style={{marginTop:'5px'}}>
+              Select Liquidity Pool
+                </div>
+              </span>
+              <span>
+              <Dropdown menu={{ items, onClick, }}  style={{marginRight:'0', marginLeft:'auto'}}>
+                <Button>
+                <a onClick={(e) => e.preventDefault()}>
+                  <Space>
+                    {currentPool}
+                    <DownOutlined />
+                  </Space>
+                </a>
+                </Button>
+              </Dropdown>
+              </span>
+            </div>
             <br />
             <Button onClick={performSwap} block type="primary" /*style={{ height: "40px", backgroundColor: "#3f67ff" }}*/>
               Swap
