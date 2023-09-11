@@ -16,6 +16,7 @@ function App() {
   const [balanceApt, setBalanceApt] = useState(0);
   const [balanceIsc, setBalanceIsc] = useState(0);
   const [balanceUsd, setBalanceUsd] = useState(0);
+  const [inputAmount, setInputAmount] = useState(0);
 
   useEffect(() => { fetchBalance('APT'); }, [account?.address]);
   useEffect(() => { fetchBalance('ISC'); }, [account?.address]);
@@ -39,6 +40,10 @@ function App() {
     }
   };
 
+  const updateAmount = async (e) => {
+    setInputAmount(e.target.value);
+  };
+
   const performSwap = async () => {
     if (!account) return [];
     // build a transaction payload to be submited
@@ -50,7 +55,7 @@ function App() {
         `${coin_owner}::isc_coin::IscCoin`,
         `${liquidswap}::curves::Stable`,
       ],
-      arguments: [2000000, 5],
+      arguments: [parseInt(inputAmount)*1000000, 5],
     };
     try {
       // sign and submit transaction to chain
@@ -76,7 +81,7 @@ function App() {
       <Row gutter={[0, 32]} style={{ marginTop: "2rem" }}>
         <Col span={4} offset={10}>
           <Card title="Stable Swap">
-            <Input prefix="I" suffix="ISC" />
+            <Input prefix="I" suffix="ISC" onChange={updateAmount}/>
             <br />
             <br />
             <Input prefix="$" suffix="USD" />
