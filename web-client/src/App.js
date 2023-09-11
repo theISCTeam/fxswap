@@ -14,6 +14,7 @@ const provider2 = new Provider(Network.MAINNET);
 // change this to be your module account address
 const coin_owner="0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f";
 const liquidswap="0xee2610bcc5e690d166ce6c4b7a78c93afca1ebbe5ace4f89baf379fe79e513bb";
+const switchboard_resource=`0x7d7e436f0b2aafde60774efb26ccc432cf881b677aca7faaf2a01879bd19fb8::aggregator::AggregatorRound<0x7d7e436f0b2aafde60774efb26ccc432cf881b677aca7faaf2a01879bd19fb8::aggregator::CurrentRound>`
 const POOLS={
   "ISCUSD": "ISC-USD",
   "SGDUSD": "SGD-USD",
@@ -41,10 +42,10 @@ const COIN_RESOURCE_ADDR={
   "SGD": `0x1::coin::CoinStore<${coin_owner}::usd_coin::UsdCoin>`,
 }
 const COIN_PRICE_ADDR={
-  "APT": `0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`,
-  "ISC": `0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`,
-  "USD": `0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`,
-  "SGD": `0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`,
+  "APT": `0xb8f20223af69dcbc33d29e8555e46d031915fc38cb1a4fff5d5167a1e08e8367`,
+  "ISC": `0x585c73812e22794f74cdd1c25c5942e688312a3d6eaf8bd98ae995fe7def40a0`,
+  "USD": `0xdc1045b4d9fd1f4221fc2f91b2090d88483ba9745f29cf2d96574611204659a5`,
+  "SGD": `0x7424f85045d526fc1d3feb3a2a289bf6a65ee750825a94d0b4f2026be72a1759`,
 }
 
 function App() {
@@ -99,16 +100,18 @@ function App() {
   };
 
   const fetchPrice = async (coin) => {
-    if (!account) return [];
     try {
-      let resource = getCoinPriceAddress(coin);
-      const CoinStore = await provider.getAccountResource(
-        account.address,
-        resource
+      let account = getCoinPriceAddress(coin);
+      const CoinStore = await provider2.getAccountResource(
+        account,
+        switchboard_resource
       );
-      let balance = CoinStore.data.coin.value/1000000;
+      let price = CoinStore.data.result.value/(10**CoinStore.data.result.dec)
       let temp=prices
-      temp[coin] = balance
+      if (coin==COINS.SGD) {
+        price = 1/price;
+      }
+      temp[coin] = price
       setPrices(temp);
     } catch (e) {
     }
@@ -211,7 +214,7 @@ function App() {
             }}>
               <Button shape="circle" size="small" icon={<SwapOutlined rotate="90" onClick={changeSwapOrder}/>} flex="center"/>
             </div>
-            <Input style={{}} disabled={true} value={computeOutputAmount()} addonAfter={<div style={{width:"30px", maxWidth:"30px"}}>{coinToString(swapOrder[1])}</div>} />
+            <Input style={{}} disabled={false} value={computeOutputAmount()} addonAfter={<div style={{width:"30px", maxWidth:"30px"}}>{coinToString(swapOrder[1])}</div>} />
             <br /> <br />
             <div style={{display: 'flex', justifyContent:'space-between'}}>
               <span>
