@@ -33,13 +33,13 @@ const COIN_ADDR={
   "APT": `0x1::aptos_coin::AptosCoin`,
   "ISC": `${coin_owner}::isc_coin::IscCoin`,
   "USD": `${coin_owner}::usd_coin::UsdCoin`,
-  "SGD": `${coin_owner}::usd_coin::UsdCoin`,
+  "SGD": `${coin_owner}::sgd_coin::SgdCoin`,
 }
 const COIN_RESOURCE_ADDR={
   "APT": `0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`,
   "ISC": `0x1::coin::CoinStore<${coin_owner}::isc_coin::IscCoin>`,
   "USD": `0x1::coin::CoinStore<${coin_owner}::usd_coin::UsdCoin>`,
-  "SGD": `0x1::coin::CoinStore<${coin_owner}::usd_coin::UsdCoin>`,
+  "SGD": `0x1::coin::CoinStore<${coin_owner}::sgd_coin::SgdCoin>`,
 }
 const COIN_PRICE_ADDR={
   "APT": `0xb8f20223af69dcbc33d29e8555e46d031915fc38cb1a4fff5d5167a1e08e8367`,
@@ -192,21 +192,33 @@ function App() {
     console.log(a)
   };
 
+  const fxSwap = () => {
+    return (
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <img src='favicon.ico' style={{ marginRight: '10px', width: '20px', height: '20px' }}></img>
+              FxSwap
+            </div>
+    );
+  }
+
   return (
     <div style= {{backgroundColor: '#000000', height:'100vh'}}>
       <Layout>
         <Row align="middle" style={{backgroundColor: '#eeeeee'}}>
-          <Col span={10} offset={2}>
-            <h1 style={{color: '#444444'}}>FxSwap</h1>
+          <Col span={10} offset={1}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <img src='favicon.ico' style={{ marginRight: '10px', width: '28px', height: '28px' }}></img>
+            <h1 style={{color: '#111111'}}>FxSwap</h1>
+            </div>
           </Col>
-          <Col span={12} style={{ textAlign: "right", paddingRight: "100px" }}>
+          <Col span={12} style={{ textAlign: "right", paddingRight: "10px" }}>
             <WalletSelector/>
           </Col>
         </Row>
       </Layout>
       <Row gutter={[0, 32]} style={{ marginTop: "2rem"}}>
-        <Col offset={10}>
-          <Card title="Stable Swap" style={{minWidth:'350px'}}>
+        <div style={{margin: 'auto'}}>
+          <Card title={fxSwap()} style={{minWidth:'350px'}}>
             <Input addonAfter={<div style={{width:"30px", maxWidth:"30px"}}>{coinToString(swapOrder[0])}</div>} onChange={updateAmount}/>
             <div style={{'display': 'flex', 'flexDirection': 'column',
                           'alignItems': 'center',
@@ -241,7 +253,7 @@ function App() {
             </Button>
 
           </Card>
-        </Col>
+        </div>
       </Row>
     </div>
   );
