@@ -9,7 +9,7 @@ import {  SwapOutlined  } from "@ant-design/icons";
 import DropdownButton from 'antd/es/dropdown/dropdown-button';
 import { DownOutlined, SmileOutlined } from '@ant-design/icons';
 
-const provider = new Provider(Network.LOCAL);
+const provider = new Provider(Network.TESTNET);
 const provider2 = new Provider(Network.MAINNET);
 // change this to be your module account address
 const coin_owner="0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f";

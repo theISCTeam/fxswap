@@ -87,14 +87,14 @@ module liquidswap::coin_helper {
         decimal = value * 10^(-1 * (dec-6)) 
         */
         let feed_addr = @isc_usd_oracle;
-        if (type_info::type_name<X>() == string::utf8(b"0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f::IscCoin::isc_coin")) {
+        if (type_info::type_name<X>() == string::utf8(b"0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f::isc_coin::IscCoin")) {
             feed_addr = @isc_usd_oracle;
-        } else if (type_info::type_name<X>() == string::utf8(b"0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f::UsdCoin::usd_coin")) {
+        } else if (type_info::type_name<X>() == string::utf8(b"0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f::usd_coin::UsdCoin")) {
             //special case
             return (1000000000, 9)
-        } else if (type_info::type_name<X>() == string::utf8(b"0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f::UsdcCoin::usdc_coin")) {
+        } else if (type_info::type_name<X>() == string::utf8(b"0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f::usdc_coin::UsdcCoin")) {
             feed_addr = @usdc_usd_oracle;
-        } else if (type_info::type_name<X>() == string::utf8(b"0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f::SgdCoin::sgd_coin")) {
+        } else if (type_info::type_name<X>() == string::utf8(b"0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f::sgd_coin::SgdCoin")) {
             feed_addr = @sgd_usd_oracle;
         } else {
             assert!(false, ERR_IS_NOT_COIN);
