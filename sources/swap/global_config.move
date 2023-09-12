@@ -64,7 +64,7 @@ module liquidswap::global_config {
             fee_admin_address: @fee_admin,
             default_uncorrelated_fee: 30,   // 0.3%
             default_stable_fee: 20,          // 0.20%
-            default_dao_fee: 33,            // 33%
+            default_dao_fee: 0,            // 0%
         });
         move_to(
             liquidswap_admin,
