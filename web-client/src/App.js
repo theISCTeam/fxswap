@@ -205,19 +205,19 @@ function App() {
     <div style= {{backgroundColor: '#000000', height:'100vh'}}>
       <Layout>
         <Row align="middle" style={{backgroundColor: '#eeeeee'}}>
-          <Col span={10} offset={2}>
+          <Col span={10} offset={1}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <img src='favicon.ico' style={{ marginRight: '10px', width: '30px', height: '30px' }}></img>
             <h1 style={{color: '#111111'}}>FxSwap</h1>
             </div>
           </Col>
-          <Col span={12} style={{ textAlign: "right", paddingRight: "100px" }}>
+          <Col span={12} style={{ textAlign: "right", paddingRight: "10px" }}>
             <WalletSelector/>
           </Col>
         </Row>
       </Layout>
       <Row gutter={[0, 32]} style={{ marginTop: "2rem"}}>
-        <Col offset={10}>
+        <div style={{margin: 'auto'}}>
           <Card title={fxSwap()} style={{minWidth:'350px'}}>
             <Input addonAfter={<div style={{width:"30px", maxWidth:"30px"}}>{coinToString(swapOrder[0])}</div>} onChange={updateAmount}/>
             <div style={{'display': 'flex', 'flexDirection': 'column',
@@ -253,7 +253,7 @@ function App() {
             </Button>
 
           </Card>
-        </Col>
+        </div>
       </Row>
     </div>
   );
