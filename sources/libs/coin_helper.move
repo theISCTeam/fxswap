@@ -24,6 +24,8 @@ module liquidswap::coin_helper {
 
     const ERR_EXT_PRICE_CANNOT_BE_NEGATIVE: u64 = 3002;
 
+    const ERR_ORACLE_SCALING_MUST_BE_9: u64 = 3003;
+
     // Constants.
     /// Length of symbol prefix to be used in LP coin symbol.
     const SYMBOL_PREFIX_LENGTH: u64 = 4;
@@ -76,31 +78,30 @@ module liquidswap::coin_helper {
         math::mul_div_u128(x_oracle_price, 1000000, y_oracle_price)
     }
 
-    public fun oracle_price_single<X>(): u128 { //scaled up to 1_000_000_000
+    public fun oracle_price_single<X>(): u128 { //scaled up by 1_000_000_000
         /*
         use switchboard::aggregator; // For reading aggregators
-        let (value, scaling_factor, _neg) = math::unpack(aggregator::latest_value(aggregator_addr)); 
+        let (value, scaling_factor, _neg) = math::unpack(aggregator::latest_value(feed_addr)); 
         assert!(_neg == false, ERR_EXT_PRICE_CANNOT_BE_NEGATIVE);
         decimal = value * 10^(-1 * (dec-6)) 
         */
-        let aggregator_addr = @usd_isc_oracle;
-        if (type_info::type_name<X>() == string::utf8(b"0x1::IscCoin::isc_coin")) {
-            aggregator_addr = @usd_isc_oracle;
-        } else if (type_info::type_name<X>() == string::utf8(b"0x1::UsdCoin::usd_coin")) {
+        let feed_addr = @usd_isc_oracle;
+        if (type_info::type_name<X>() == string::utf8(b"0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f::IscCoin::isc_coin")) {
+            feed_addr = @usd_isc_oracle;
+        } else if (type_info::type_name<X>() == string::utf8(b"0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f::UsdCoin::usd_coin")) {
             //special case
             return 1000000000
-        } else if (type_info::type_name<X>() == string::utf8(b"0x1::UsdcCoin::usdc_coin")) {
-            aggregator_addr = @usd_usdc_oracle;
-        } else if (type_info::type_name<X>() == string::utf8(b"0x1::SgdCoin::sgd_coin")) {
-            aggregator_addr = @usd_sgd_oracle;
+        } else if (type_info::type_name<X>() == string::utf8(b"0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f::UsdcCoin::usdc_coin")) {
+            feed_addr = @usd_usdc_oracle;
+        } else if (type_info::type_name<X>() == string::utf8(b"0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f::SgdCoin::sgd_coin")) {
+            feed_addr = @usd_sgd_oracle;
         } else {
             assert!(false, ERR_IS_NOT_COIN);
         };
         // else if (type_name<X>() == string::utf8(b"0x1::EuroeCoin::euroe_coin")) {
-        //     aggregator_addr = @usd_euroe_oracle;
+        //     feed_addr = @usd_euroe_oracle;
         // };
-
-        let (value, scaling_factor, _neg) = unpack(aggregator::latest_value(aggregator_addr)); 
+        let (value, scaling_factor, _neg) = unpack(aggregator::latest_value(feed_addr)); 
         assert!(_neg == false, ERR_EXT_PRICE_CANNOT_BE_NEGATIVE);
         if (scaling_factor != 9) {
             let scaling = (math::pow_10(scaling_factor-9) as u128);

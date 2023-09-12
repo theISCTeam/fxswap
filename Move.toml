@@ -22,11 +22,20 @@ test_lp_owner = "0x12"
 test_pool_addr = "0x2540b6f8a87ac1cff2de9f5f742854b448cd4521e96f840eda05e63e4e944ed6"
 
 # Oracle addresses
-switchboard = "0x7d7e436f0b2aafde60774efb26ccc432cf881b677aca7faaf2a01879bd19fb8" # Will change as we iterate on devnet
-usd_isc_oracle = "0x585c73812e22794f74cdd1c25c5942e688312a3d6eaf8bd98ae995fe7def40a0"
-usd_sgd_oracle = "0x7424f85045d526fc1d3feb3a2a289bf6a65ee750825a94d0b4f2026be72a1759"
-usd_usdc_oracle = "0xdc1045b4d9fd1f4221fc2f91b2090d88483ba9745f29cf2d96574611204659a5"
-# usd_euroe_oracle = "_"
+#Mainnet
+# switchboard = "0x7d7e436f0b2aafde60774efb26ccc432cf881b677aca7faaf2a01879bd19fb8" # Will change as we iterate on devnet
+# usd_isc_oracle = "0x585c73812e22794f74cdd1c25c5942e688312a3d6eaf8bd98ae995fe7def40a0"
+# usd_sgd_oracle = "0x7424f85045d526fc1d3feb3a2a289bf6a65ee750825a94d0b4f2026be72a1759"
+# usd_usdc_oracle = "0xdc1045b4d9fd1f4221fc2f91b2090d88483ba9745f29cf2d96574611204659a5"
+#Testnet
+switchboard = "0xb91d3fef0eeb4e685dc85e739c7d3e2968784945be4424e92e2f86e2418bf271"
+usd_isc_oracle = "0x3034c114c5a09b4e7afda91af160a8fad94361541c0f5e537b8374710076bdc6"
+usd_sgd_oracle = "0x4b0027a931718c267e82fedb0e026359f247d567974f580815480872c2f00fcc"
+usd_usdc_oracle = "0x1f7b23e6d81fa2102b2e994d2e54d26d116426c7dda5417925265f7b46f50c73"
+
+#Tokens
+IscCoin = "0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f"
+UsdCoin = "0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f"
 
 
 [dependencies.LiquidswapLP]
