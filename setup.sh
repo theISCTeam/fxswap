@@ -44,6 +44,25 @@ aptos move run \
     --profile coin_owner \
     --assume-yes
 
+# publish and mint EURE
+cd eure_coin
+aptos move publish --assume-yes
+cd ..
+aptos move run \
+    --function-id 0x1::managed_coin::register \
+    --type-args \
+        $coin_owner::eure_coin::EureCoin \
+    --assume-yes
+aptos move run \
+    --function-id 0x1::managed_coin::mint \
+    --type-args \
+        $coin_owner::eure_coin::EureCoin \
+    --args \
+        address:$liquidswap \
+        u64:2100000000 \
+    --profile coin_owner \
+    --assume-yes
+
 # publish liquidswap_init
 cd liquidswap_init
 aptos move publish --assume-yes
