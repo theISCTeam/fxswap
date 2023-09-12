@@ -207,7 +207,7 @@ function App() {
         <Row align="middle" style={{backgroundColor: '#eeeeee'}}>
           <Col span={10} offset={1}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img src='favicon.ico' style={{ marginRight: '10px', width: '30px', height: '30px' }}></img>
+              <img src='favicon.ico' style={{ marginRight: '10px', width: '28px', height: '28px' }}></img>
             <h1 style={{color: '#111111'}}>FxSwap</h1>
             </div>
           </Col>
