@@ -44,6 +44,25 @@ aptos move run \
     --profile coin_owner \
     --assume-yes
 
+# publish and mint EURE
+cd eure_coin
+aptos move publish --assume-yes
+cd ..
+aptos move run \
+    --function-id 0x1::managed_coin::register \
+    --type-args \
+        $coin_owner::eure_coin::EureCoin \
+    --assume-yes
+aptos move run \
+    --function-id 0x1::managed_coin::mint \
+    --type-args \
+        $coin_owner::eure_coin::EureCoin \
+    --args \
+        address:$liquidswap \
+        u64:1100000000 \
+    --profile coin_owner \
+    --assume-yes
+
 # publish liquidswap_init
 cd liquidswap_init
 aptos move publish --assume-yes
@@ -71,6 +90,13 @@ aptos move run \
         $coin_owner::usd_coin::UsdCoin \
         $liquidswap::curves::Stable \
     --assume-yes
+aptos move run \
+    --function-id default::scripts::register_pool \
+    --type-args \
+        $coin_owner::eure_coin::EureCoin \
+        $coin_owner::usd_coin::UsdCoin \
+        $liquidswap::curves::Stable \
+    --assume-yes
 
 # add liquidity to the pool
 aptos move run \
@@ -82,7 +108,20 @@ aptos move run \
     --args \
         u64:1000000000\
         u64:10000000\
-        u64:2000000000\
+        u64:1000000000\
         u64:10000000\
     --assume-yes
 
+# add liquidity to the pool
+aptos move run \
+    --function-id default::scripts::add_liquidity \
+    --type-args \
+        $coin_owner::eure_coin::EureCoin \
+        $coin_owner::usd_coin::UsdCoin \
+        $liquidswap::curves::Stable \
+    --args \
+        u64:1000000000\
+        u64:10000000\
+        u64:1000000000\
+        u64:10000000\
+    --assume-yes

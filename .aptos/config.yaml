@@ -4,11 +4,11 @@ profiles:
     private_key: "0xe0c926be22cb6d90763faf9328d21665e6600da086008049f4aeea682bb1edb7"
     public_key: "0x904b26fae26aa9bbd1eaf2b4b814cb0204c76f78c829e3d212833b37f9686bad"
     account: ee2610bcc5e690d166ce6c4b7a78c93afca1ebbe5ace4f89baf379fe79e513bb
-    rest_url: "http://localhost:8080"
-    faucet_url: "http://localhost:8081"
+    rest_url: "https://fullnode.testnet.aptoslabs.com"
+    faucet_url: "https://faucet.testnet.aptoslabs.com"
   coin_owner:
     private_key: "0x608b5e02b9d208f4f89dfdac7cd6ef254f1c8b84b977e5015a99623c75855847"
     public_key: "0x3918dbb50ec4cd88adfa5634062767a767571d61999a89a4cc40e2e2ee255902"
     account: f1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f
-    rest_url: "http://localhost:8080"
-    faucet_url: "http://localhost:8081"
+    rest_url: "https://fullnode.testnet.aptoslabs.com"
+    faucet_url: "https://faucet.testnet.aptoslabs.com"

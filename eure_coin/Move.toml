@@ -1,0 +1,16 @@
+[package]
+name = "EureCoin"
+version = "1.0.0"
+authors = []
+
+[addresses]
+EureCoin = "0xf1f73e02b4db78e95559caa10a3450dd06e19d55f2036f62773fa7f0617b504f"
+
+[dev-addresses]
+
+[dependencies.AptosFramework]
+git = "https://github.com/aptos-labs/aptos-core.git"
+rev = "mainnet"
+subdir = "aptos-move/framework/aptos-framework"
+
+[dev-dependencies]
