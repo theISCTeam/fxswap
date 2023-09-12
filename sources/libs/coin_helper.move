@@ -3,12 +3,16 @@ module liquidswap::coin_helper {
     use std::option;
     use std::string::{Self, String};
 
+
     use aptos_framework::coin;
     use aptos_std::comparator::{Self, Result};
     use aptos_std::type_info;
 
     use liquidswap::curves::is_stable;
     use liquidswap::math;
+
+    use switchboard::math::unpack;
+    use switchboard::aggregator; // For reading aggregators
 
     // Errors codes.
 
@@ -17,6 +21,8 @@ module liquidswap::coin_helper {
 
     /// When provided CoinType is not a coin.
     const ERR_IS_NOT_COIN: u64 = 3001;
+
+    const ERR_EXT_PRICE_CANNOT_BE_NEGATIVE: u64 = 3002;
 
     // Constants.
     /// Length of symbol prefix to be used in LP coin symbol.
@@ -61,9 +67,46 @@ module liquidswap::coin_helper {
         comparator::is_smaller_than(&order)
     }
 
-    /// Price for pair X/Y scaled up by 1000000
+    /// External Price for pair X/Y scaled up by 1000_000
     public fun oracle_price<X, Y>(): u64 {
-        2000000
+        // 2000000
+        let x_oracle_price = oracle_price_single<X>();
+        let y_oracle_price = oracle_price_single<Y>();
+        // mul_div_u128(x: u128, y: u128, z: u128): u64
+        math::mul_div_u128(x_oracle_price, 1000000, y_oracle_price)
+    }
+
+    public fun oracle_price_single<X>(): u128 { //scaled up to 1_000_000_000
+        /*
+        use switchboard::aggregator; // For reading aggregators
+        let (value, scaling_factor, _neg) = math::unpack(aggregator::latest_value(aggregator_addr)); 
+        assert!(_neg == false, ERR_EXT_PRICE_CANNOT_BE_NEGATIVE);
+        decimal = value * 10^(-1 * (dec-6)) 
+        */
+        let aggregator_addr = @usd_isc_oracle;
+        if (type_info::type_name<X>() == string::utf8(b"0x1::IscCoin::isc_coin")) {
+            aggregator_addr = @usd_isc_oracle;
+        } else if (type_info::type_name<X>() == string::utf8(b"0x1::UsdCoin::usd_coin")) {
+            //special case
+            return 1000000000
+        } else if (type_info::type_name<X>() == string::utf8(b"0x1::UsdcCoin::usdc_coin")) {
+            aggregator_addr = @usd_usdc_oracle;
+        } else if (type_info::type_name<X>() == string::utf8(b"0x1::SgdCoin::sgd_coin")) {
+            aggregator_addr = @usd_sgd_oracle;
+        } else {
+            assert!(false, ERR_IS_NOT_COIN);
+        };
+        // else if (type_name<X>() == string::utf8(b"0x1::EuroeCoin::euroe_coin")) {
+        //     aggregator_addr = @usd_euroe_oracle;
+        // };
+
+        let (value, scaling_factor, _neg) = unpack(aggregator::latest_value(aggregator_addr)); 
+        assert!(_neg == false, ERR_EXT_PRICE_CANNOT_BE_NEGATIVE);
+        if (scaling_factor != 9) {
+            let scaling = (math::pow_10(scaling_factor-9) as u128);
+            value = value * scaling; //u128 = u128 * u128 <- overflow risk - low
+        };
+        value
     }
 
     /// Get supply for `CoinType`.
@@ -107,5 +150,11 @@ module liquidswap::coin_helper {
         let symbol = coin::symbol<CoinType>();
         let prefix_length = math::min_u64(string::length(&symbol), SYMBOL_PREFIX_LENGTH);
         string::sub_string(&symbol, 0, prefix_length)
+    }
+
+    #[test(account = @0x1)]
+    public entry fun test_oracle(account: &signer) {
+        // print out value
+        std::debug::print(&aggregator::latest_value(signer::address_of(account)));
     }
 }

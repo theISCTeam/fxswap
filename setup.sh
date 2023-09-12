@@ -63,6 +63,7 @@ aptos move publish --assume-yes
 aptos move run \
     --function-id default::liquidity_pool::initialize \
     --assume-yes
+#initialize a single pool
 aptos move run \
     --function-id default::scripts::register_pool \
     --type-args \
