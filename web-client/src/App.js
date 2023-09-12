@@ -152,7 +152,7 @@ function App() {
   };
 
   const performSwap = async () => {
-    if (!account) return [];
+    //if (!account) return [];
     // build a transaction payload to be submited
     const payload = {
       type: "entry_function_payload",
