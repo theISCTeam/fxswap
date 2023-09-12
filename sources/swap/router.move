@@ -331,6 +331,7 @@ module liquidswap::router {
         //} else {
         //    reserve_y = math::mul_div(reserve_y, price, 1000000);
         //};
+        amount_in = amount_in - 1;
         reserve_x = math::mul_div(reserve_x, price, 1000000);
         amount_in = math::mul_div(amount_in, price, 1000000) - 1;
         let coin_out_unadjusted = get_coin_out_with_fees<X, Y, Curve>(
