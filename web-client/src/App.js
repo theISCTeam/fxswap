@@ -162,7 +162,7 @@ function App() {
         getCoinAddress(swapOrder[1]),
         `${liquidswap}::curves::Stable`,
       ],
-      arguments: [parseInt(inputAmount)*1000000, 5],
+      arguments: [parseInt(inputAmount*1000000), 5],
     };
     try {
       // sign and submit transaction to chain
