@@ -90,11 +90,12 @@ aptos move run \
         $coin_owner::usd_coin::UsdCoin \
         $liquidswap::curves::Stable \
     --assume-yes
+
 aptos move run \
     --function-id default::scripts::register_pool \
     --type-args \
-        $coin_owner::eure_coin::EureCoin \
         $coin_owner::usd_coin::UsdCoin \
+        $coin_owner::eure_coin::EureCoin \
         $liquidswap::curves::Stable \
     --assume-yes
 
@@ -116,8 +117,8 @@ aptos move run \
 aptos move run \
     --function-id default::scripts::add_liquidity \
     --type-args \
-        $coin_owner::eure_coin::EureCoin \
         $coin_owner::usd_coin::UsdCoin \
+        $coin_owner::eure_coin::EureCoin \
         $liquidswap::curves::Stable \
     --args \
         u64:1000000000\
