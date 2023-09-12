@@ -33,13 +33,13 @@ const COIN_ADDR={
   "APT": `0x1::aptos_coin::AptosCoin`,
   "ISC": `${coin_owner}::isc_coin::IscCoin`,
   "USD": `${coin_owner}::usd_coin::UsdCoin`,
-  "SGD": `${coin_owner}::usd_coin::UsdCoin`,
+  "SGD": `${coin_owner}::sgd_coin::SgdCoin`,
 }
 const COIN_RESOURCE_ADDR={
   "APT": `0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`,
   "ISC": `0x1::coin::CoinStore<${coin_owner}::isc_coin::IscCoin>`,
   "USD": `0x1::coin::CoinStore<${coin_owner}::usd_coin::UsdCoin>`,
-  "SGD": `0x1::coin::CoinStore<${coin_owner}::usd_coin::UsdCoin>`,
+  "SGD": `0x1::coin::CoinStore<${coin_owner}::sgd_coin::SgdCoin>`,
 }
 const COIN_PRICE_ADDR={
   "APT": `0xb8f20223af69dcbc33d29e8555e46d031915fc38cb1a4fff5d5167a1e08e8367`,
