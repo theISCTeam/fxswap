@@ -192,12 +192,24 @@ function App() {
     console.log(a)
   };
 
+  const fxSwap = () => {
+    return (
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <img src='favicon.ico' style={{ marginRight: '10px', width: '20px', height: '20px' }}></img>
+              FxSwap
+            </div>
+    );
+  }
+
   return (
     <div style= {{backgroundColor: '#000000', height:'100vh'}}>
       <Layout>
         <Row align="middle" style={{backgroundColor: '#eeeeee'}}>
           <Col span={10} offset={2}>
-            <h1 style={{color: '#444444'}}>FxSwap</h1>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <img src='favicon.ico' style={{ marginRight: '10px', width: '30px', height: '30px' }}></img>
+            <h1 style={{color: '#111111'}}>FxSwap</h1>
+            </div>
           </Col>
           <Col span={12} style={{ textAlign: "right", paddingRight: "100px" }}>
             <WalletSelector/>
@@ -206,7 +218,7 @@ function App() {
       </Layout>
       <Row gutter={[0, 32]} style={{ marginTop: "2rem"}}>
         <Col offset={10}>
-          <Card title="Stable Swap" style={{minWidth:'350px'}}>
+          <Card title={fxSwap()} style={{minWidth:'350px'}}>
             <Input addonAfter={<div style={{width:"30px", maxWidth:"30px"}}>{coinToString(swapOrder[0])}</div>} onChange={updateAmount}/>
             <div style={{'display': 'flex', 'flexDirection': 'column',
                           'alignItems': 'center',
