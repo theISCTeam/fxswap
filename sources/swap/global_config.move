@@ -63,7 +63,7 @@ module liquidswap::global_config {
             emergency_admin_address: @emergency_admin,
             fee_admin_address: @fee_admin,
             default_uncorrelated_fee: 30,   // 0.3%
-            default_stable_fee: 4,          // 0.04%
+            default_stable_fee: 20,          // 0.20%
             default_dao_fee: 33,            // 33%
         });
         move_to(
