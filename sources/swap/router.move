@@ -325,12 +325,14 @@ module liquidswap::router {
         let (reserve_x, reserve_y) = get_reserves_size<X, Y, Curve>();
         let (scale_x, scale_y) = get_decimals_scales<X, Y, Curve>();
         let price = coin_helper::oracle_price<X, Y>();
-        if (coin_helper::is_sorted<X, Y>()) {
-            reserve_x = math::mul_div(reserve_x, price, 1000000);
-            amount_in = math::mul_div(amount_in, price, 1000000);
-        } else {
-            reserve_y = math::mul_div(reserve_y, price, 1000000);
-        };
+        //if (coin_helper::is_sorted<X, Y>()) {
+        //    reserve_x = math::mul_div(reserve_x, price, 1000000);
+        //    amount_in = math::mul_div(amount_in, price, 1000000);
+        //} else {
+        //    reserve_y = math::mul_div(reserve_y, price, 1000000);
+        //};
+        reserve_x = math::mul_div(reserve_x, price, 1000000);
+        amount_in = math::mul_div(amount_in, price, 1000000) - 1;
         let coin_out_unadjusted = get_coin_out_with_fees<X, Y, Curve>(
             amount_in,
             reserve_x,
@@ -338,13 +340,14 @@ module liquidswap::router {
             scale_x,
             scale_y,
         );
-        if (coin_helper::is_sorted<X, Y>()) {
-            //math::mul_div(coin_out_unadjusted, price, 1000000)
-            coin_out_unadjusted
-        } else {
-            math::mul_div(coin_out_unadjusted, 1000000, price)
-            //coin_out_unadjusted
-        }
+        coin_out_unadjusted
+        //if (coin_helper::is_sorted<X, Y>()) {
+        //    //math::mul_div(coin_out_unadjusted, price, 1000000)
+        //    coin_out_unadjusted - 1000
+        //} else {
+        //    math::mul_div(coin_out_unadjusted, 1000000, price) - 1000
+        //    //coin_out_unadjusted
+        //}
         //coin_out_unadjusted
     }
 
@@ -359,12 +362,13 @@ module liquidswap::router {
         let (reserve_x, reserve_y) = get_reserves_size<X, Y, Curve>();
         let (scale_x, scale_y) = get_decimals_scales<X, Y, Curve>();
         let price = coin_helper::oracle_price<X, Y>();
-        if (coin_helper::is_sorted<X, Y>()) {
-            reserve_x = math::mul_div(reserve_x, price, 1000000);
-        } else {
-            reserve_y = math::mul_div(reserve_y, price, 1000000);
-            amount_out = math::mul_div(amount_out, price, 1000000);
-        };
+        //reserve_x = math::mul_div(reserve_x, price, 1000000);
+        //if (coin_helper::is_sorted<X, Y>()) {
+        //    reserve_x = math::mul_div(reserve_x, price, 1000000);
+        //} else {
+        reserve_y = math::mul_div(reserve_y, 1000000, price);
+        amount_out = math::mul_div(amount_out, 1000000, price) + 1;
+        //};
         let coin_out_unadjusted = get_coin_in_with_fees<X, Y, Curve>(
             amount_out,
             reserve_y,
@@ -372,12 +376,13 @@ module liquidswap::router {
             scale_y,
             scale_x,
         );
-        if (coin_helper::is_sorted<X, Y>()) {
-            math::mul_div(coin_out_unadjusted, 1000000, price)
-        } else {
-            //math::mul_div(coin_out_unadjusted, price, 1000000)
-            coin_out_unadjusted
-        }
+        //if (coin_helper::is_sorted<X, Y>()) {
+        //    math::mul_div(coin_out_unadjusted, 1000000, price)
+        //} else {
+        //    //math::mul_div(coin_out_unadjusted, price, 1000000)
+        //    coin_out_unadjusted
+        //}
+        coin_out_unadjusted
     }
 
     // Private functions (contains part of math).

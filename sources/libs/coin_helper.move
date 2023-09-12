@@ -70,15 +70,22 @@ module liquidswap::coin_helper {
     }
 
     /// External Price for pair X/Y scaled up by 1000_000
+    #[view]
     public fun oracle_price<X, Y>(): u64 {
         // 2000000
         let (x_oracle_price, x_scaling_factor) = oracle_price_single<X>();
         let (y_oracle_price, y_scaling_factor) = oracle_price_single<Y>();        
         assert!(x_scaling_factor == y_scaling_factor, ERR_ORACLE_SCALING_MUST_BE_SAME);
+        let ans = math::mul_div_u128(x_oracle_price, 1000000, y_oracle_price);
         // mul_div_u128(x: u128, y: u128, z: u128): u64
-        math::mul_div_u128(x_oracle_price, 1000000, y_oracle_price)
+        //1500000
+        ans
+        //1575512
+        //1575347
+        //1575343
     }
 
+    #[view]
     public fun oracle_price_single<X>(): (u128, u8) { //scaled up by 1_000_000_000
         /*
         use switchboard::aggregator; // For reading aggregators
