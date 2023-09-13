@@ -79,7 +79,7 @@ function App() {
   const computeOutputAmount = () => {
     const price0 = prices[swapOrder[0]]
     const price1 = prices[swapOrder[1]]
-    const output_amount = inputAmount*(price0/price1)
+    const output_amount = inputAmount*(price0/price1)*0.998
     console.log("output amt computed")
     return output_amount
   }
@@ -230,8 +230,9 @@ function App() {
             <br /> <br />
             <div style={{display: 'flex', justifyContent:'space-between'}}>
               <span>
-                <div style={{marginTop:'5px'}}>
-              Select Liquidity Pool
+                <div style={{marginTop:'0px'}}>
+              Select Liquidity Pool <br></br>
+              Pool Fee: 0.2%
                 </div>
               </span>
               <span>
